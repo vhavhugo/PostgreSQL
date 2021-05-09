@@ -150,3 +150,80 @@ SELECT *
 	WHERE nome LIKE 'Diogo'
 	   OR nome LIKE 'Rodrigo'
 	   OR nome LIKE 'Hugo%'
+
+# Chave Primaria
+
+CREATE TABLE curso(
+	id INTEGER PRIMARY KEY,
+	nome VARCHAR(255) NOT NULL
+)
+
+# Chave Primaria Composta
+# Os dois são NOT NULL e campo único
+
+CREATE TABLE aluno_curso (
+	aluno_id INTEGER,
+	curso_id INTEGER,
+	PRIMARY KEY (aluno_id, curso_id)
+);
+
+# Chave Secundária
+
+CREATE TABLE aluno_curso (
+	aluno_id INTEGER,
+	curso_id INTEGER,
+	PRIMARY KEY (aluno_id, curso_id),
+	
+	FOREIGN KEY (aluno_id)
+		REFERENCES aluno (id),
+	
+	FOREIGN KEY (curso_id)
+		REFERENCES curso (id)
+);
+
+# Verificar
+
+SELECT aluno.nome as "Nome do Aluno",
+	   curso.nome as "Nome do Curso"
+	FROM aluno
+	JOIN aluno_curso ON aluno_curso.aluno_id = aluno.id
+	JOIN curso       ON curso.id             = aluno_curso.curso_id 
+
+
+# visualizações
+
+	SELECT aluno.nome as "Nome do Aluno",
+	   curso.nome as "Nome do Curso"
+	FROM aluno
+	FULL JOIN aluno_curso ON aluno_curso.aluno_id = aluno.id
+	FULL JOIN curso       ON curso.id             = aluno_curso.curso_id
+	
+	JOIN -> traz os conteúdos que não são null
+	LEFT JOIN -> traz os conteúdos da tabela da esquerda
+	RIGHT JOIN -> traz os conteúdos da tabela da direita
+	FULL JOIN -> Traz os conteúdos totais.
+
+		SELECT aluno.nome as "Nome do Aluno",
+	   curso.nome as "Nome do Curso"
+			FROM aluno
+			CROSS JOIN curso
+
+CROSS JOIN -> relaciona todos os alunos com todos os cursos
+
+# Delete em cascata
+
+CREATE TABLE aluno_curso (
+	aluno_id INTEGER,
+	curso_id INTEGER,
+	PRIMARY KEY (aluno_id, curso_id),
+	
+	FOREIGN KEY (aluno_id)
+		REFERENCES aluno (id)
+		ON DELETE CASCADE,
+	
+	FOREIGN KEY (curso_id)
+		REFERENCES curso (id)
+);
+
+DELETE FROM aluno WHERE id = 1;
+
