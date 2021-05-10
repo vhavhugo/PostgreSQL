@@ -256,3 +256,44 @@ SELECT
 UPDATE aluno
 	SET id = 10
 	WHERE id = 2;
+
+# Ordenação
+
+SELECT * 
+	FROM funcionarios
+	ORDER BY 4 DESC, funcionarios.nome DESC, 2 ASC;
+
+SELECT 
+	   aluno.id as aluno_id,
+	   aluno.nome as "Nome do Aluno",
+	   curso.id as curso_id,
+	   curso.nome as "Nome do Curso"
+	FROM aluno
+	JOIN aluno_curso ON aluno_curso.aluno_id = aluno.id
+	JOIN curso       ON curso.id             = aluno_curso.curso_id
+	ORDER BY aluno.nome DESC, curso.nome
+	
+	INSERT INTO aluno_curso (aluno_id, curso_id) VALUES (20,3);
+
+# LIMIT - OFFSET	
+
+	SELECT * 
+		FROM funcionarios 
+		ORDER BY id
+		LIMIT 5
+		OFFSET 2;
+
+# Funções de agregações
+
+-- COUNT - Retorna a quantidade de registros
+-- SUM   - Retorna a soma dos registros
+-- MAX   - Retorno o maior valor dos registros
+-- MIN   - Retorno o menor valor dos registros
+-- AVG   - Retorna a média dos registros
+
+SELECT COUNT(id),
+	   SUM(id),
+	   MAX(id),
+	   MIN(id),
+	   ROUND(AVG(id),0)  
+	FROM funcionarios;
