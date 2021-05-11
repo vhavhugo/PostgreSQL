@@ -316,3 +316,26 @@ SELECT curso.nome,
 GROUP BY 1
 ORDER BY 1	
 
+# Filtrando consultas agrupadas
+
+SELECT * FROM aluno;
+SELECT * FROM aluno_curso;
+SELECT * FROM curso;
+
+SELECT curso.nome,
+	   COUNT(aluno.id)
+	FROM curso
+	LEFT JOIN aluno_curso ON aluno_curso.curso_id = curso.id
+	LEFT JOIN aluno ON aluno.id = aluno_curso.aluno_id
+	--WHERE curso.nome = 'JavaScript'
+GROUP BY 1
+	HAVING COUNT(aluno.id) > 0
+	
+SELECT nome,
+	   COUNT(id)
+	FROM funcionarios
+	GROUP BY nome
+	HAVING COUNT(id) = 1;
+	
+
+
